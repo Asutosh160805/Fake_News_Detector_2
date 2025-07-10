@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fake News Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Lato', sans-serif;
+      text-decoration: none;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #ede9fe, #f3e8ff);
+    }
+
+    .navbar {
+      background: #a855f7;
+      padding: 15px 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navdiv {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo a {
+      font-size: 35px;
+      font-weight: 700;
+      color: white;
+      display: inline-block;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      cursor: zoom-in;
+    }
+
+    .logo a span {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    .logo a:hover span {
+      animation: bounce 0.6s ease;
+    }
+
+    .logo a:hover span:nth-child(1)  { animation-delay: 0s; }
+    .logo a:hover span:nth-child(2)  { animation-delay: 0.05s; }
+    .logo a:hover span:nth-child(3)  { animation-delay: 0.1s; }
+    .logo a:hover span:nth-child(4)  { animation-delay: 0.15s; }
+    .logo a:hover span:nth-child(5)  { animation-delay: 0.2s; }
+    .logo a:hover span:nth-child(6)  { animation-delay: 0.25s; }
+    .logo a:hover span:nth-child(7)  { animation-delay: 0.3s; }
+    .logo a:hover span:nth-child(8)  { animation-delay: 0.35s; }
+    .logo a:hover span:nth-child(9)  { animation-delay: 0.4s; }
+    .logo a:hover span:nth-child(10) { animation-delay: 0.45s; }
+    .logo a:hover span:nth-child(11) { animation-delay: 0.5s; }
+    .logo a:hover span:nth-child(12) { animation-delay: 0.55s; }
+    .logo a:hover span:nth-child(13) { animation-delay: 0.6s; }
+    .logo a:hover span:nth-child(14) { animation-delay: 0.65s; }
+    .logo a:hover span:nth-child(15) { animation-delay: 0.7s; }
+    .logo a:hover span:nth-child(16) { animation-delay: 0.75s; }
+    .logo a:hover span:nth-child(17) { animation-delay: 0.8s; }
+    .logo a:hover span:nth-child(18) { animation-delay: 0.85s; }
+
+    ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    li a {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 25px;
+      transition: opacity 0.3s;
+    }
+
+    li a:hover {
+      opacity: 0.8;
+    }
+
+    button {
+      background-color: #860ef7;
+      margin-left: 10px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button a {
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .text-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 2px solid #d1d5db;
+      resize: vertical;
+      outline: none;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .check-button {
+      margin-top: 20px;
+      background: #7c3aed;
+      border: none;
+      padding: 12px 30px;
+      color: white;
+      font-size: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .check-button:hover {
+      background: #6d28d9;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .real {
+      color: #16a34a;
+    }
+
+    .fake {
+      color: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <div class="navdiv">
+      <div class="logo">
+        <a href="#">
+          <span>F</span><span>A</span><span>K</span><span>E</span><span> </span>
+          <span>N</span><span>E</span><span>W</span><span>S</span><span> </span>
+          <span>D</span><span>E</span><span>T</span><span>E</span><span>C</span><span>T</span><span>O</span><span>R</span>
+        </a>
+      </div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <button><a href="#">SignIn</a></button>
+        <button><a href="#">SignUp</a></button>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ✅ Text Input Section -->
+  <div class="text-container">
+    <textarea id="newsText" placeholder="Paste or type the news article here..."></textarea>
+    <button class="check-button" onclick="checkNews()">Check News</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function checkNews() {
+      const text = document.getElementById("newsText").value.trim();
+      const result = document.getElementById("result");
+
+      if (!text) {
+        result.innerHTML = "⚠️ Please enter a news article.";
+        result.className = '';
+        return;
+      }
+
+      // Simulated prediction
+      const isFake = Math.random() > 0.5;
+
+      if (isFake) {
+        result.innerHTML = "❌ This news appears to be FAKE.";
+        result.className = "fake";
+      } else {
+        result.innerHTML = "✅ This news appears to be REAL.";
+        result.className = "real";
+      }
+    }
+  </script>
+
+</body>
+</html>
