@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Fake News Detector</title>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
   <style>
     * {
       margin: 0;
@@ -57,24 +59,9 @@
       animation: bounce 0.6s ease;
     }
 
-    .logo a:hover span:nth-child(1)  { animation-delay: 0s; }
-    .logo a:hover span:nth-child(2)  { animation-delay: 0.05s; }
-    .logo a:hover span:nth-child(3)  { animation-delay: 0.1s; }
-    .logo a:hover span:nth-child(4)  { animation-delay: 0.15s; }
-    .logo a:hover span:nth-child(5)  { animation-delay: 0.2s; }
-    .logo a:hover span:nth-child(6)  { animation-delay: 0.25s; }
-    .logo a:hover span:nth-child(7)  { animation-delay: 0.3s; }
-    .logo a:hover span:nth-child(8)  { animation-delay: 0.35s; }
-    .logo a:hover span:nth-child(9)  { animation-delay: 0.4s; }
-    .logo a:hover span:nth-child(10) { animation-delay: 0.45s; }
-    .logo a:hover span:nth-child(11) { animation-delay: 0.5s; }
-    .logo a:hover span:nth-child(12) { animation-delay: 0.55s; }
-    .logo a:hover span:nth-child(13) { animation-delay: 0.6s; }
-    .logo a:hover span:nth-child(14) { animation-delay: 0.65s; }
-    .logo a:hover span:nth-child(15) { animation-delay: 0.7s; }
-    .logo a:hover span:nth-child(16) { animation-delay: 0.75s; }
-    .logo a:hover span:nth-child(17) { animation-delay: 0.8s; }
-    .logo a:hover span:nth-child(18) { animation-delay: 0.85s; }
+    .logo a:hover span:nth-child(n) {
+      animation-delay: calc(0.05s * var(--i));
+    }
 
     ul {
       list-style: none;
@@ -179,17 +166,19 @@
     <div class="navdiv">
       <div class="logo">
         <a href="#">
-          <span>F</span><span>A</span><span>K</span><span>E</span><span> </span>
-          <span>N</span><span>E</span><span>W</span><span>S</span><span> </span>
-          <span>D</span><span>E</span><span>T</span><span>E</span><span>C</span><span>T</span><span>O</span><span>R</span>
+          <span style="--i:1">F</span><span style="--i:2">A</span><span style="--i:3">K</span><span style="--i:4">E</span><span style="--i:5"> </span>
+          <span style="--i:6">N</span><span style="--i:7">E</span><span style="--i:8">W</span><span style="--i:9">S</span><span style="--i:10"> </span>
+          <span style="--i:11">D</span><span style="--i:12">E</span><span style="--i:13">T</span><span style="--i:14">E</span><span style="--i:15">C</span><span style="--i:16">T</span><span style="--i:17">O</span><span style="--i:18">R</span>
         </a>
       </div>
       <ul>
         <li><a href="#">Home</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
-        <button><a href="#">SignIn</a></button>
-        <button><a href="#">SignUp</a></button>
+        <li><a href="#" onclick="checkIfLoggedIn('signin')">SignIn</a></li>
+        <li><a href="#" onclick="checkIfLoggedIn('signup')">SignUp</a></li>
+        <li><span id="welcomeUser" style="color:white; font-weight:bold; margin-right:15px;"></span></li>
+        <li><button onclick="logout()">Logout</button></li>
       </ul>
     </div>
   </nav>
@@ -223,6 +212,46 @@
         result.className = "real";
       }
     }
+
+    function logout() {
+      localStorage.removeItem("userName");
+      localStorage.removeItem("isLoggedIn");
+      Toastify({
+        text: "Logged out successfully!",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#f87171",
+      }).showToast();
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1000);
+    }
+
+    function checkIfLoggedIn(mode) {
+      const isLoggedIn = localStorage.getItem("isLoggedIn");
+      if (isLoggedIn) {
+        Toastify({
+          text: "You're already logged in!",
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "#3b82f6",
+        }).showToast();
+      } else {
+        window.location.href = `login.html?mode=${mode}`;
+      }
+    }
+
+    window.onload = () => {
+      const name = localStorage.getItem("userName");
+      const loggedIn = localStorage.getItem("isLoggedIn");
+      if (!loggedIn) {
+        window.location.href = "login.html";
+      } else if (name) {
+        document.getElementById("welcomeUser").textContent = `👋 ${name}`;
+      }
+    };
   </script>
 
 </body>
