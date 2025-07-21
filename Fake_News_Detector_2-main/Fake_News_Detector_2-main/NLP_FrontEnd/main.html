@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fake News Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  <style>
+    /* [All your styles — no changes made here] */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Lato', sans-serif;
+      text-decoration: none;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #ede9fe, #f3e8ff);
+    }
+
+    .navbar {
+      background: #a855f7;
+      padding: 15px 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navdiv {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo a {
+      font-size: 35px;
+      font-weight: 700;
+      color: white;
+      display: inline-block;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      cursor: zoom-in;
+    }
+
+    .logo a span {
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes bounce {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    .logo a:hover span {
+      animation: bounce 0.6s ease;
+    }
+
+    .logo a:hover span:nth-child(n) {
+      animation-delay: calc(0.05s * var(--i));
+    }
+
+    ul {
+      list-style: none;
+      display: flex;
+      align-items: center;
+    }
+
+    li a {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      margin-right: 25px;
+      transition: opacity 0.3s;
+    }
+
+    li a:hover {
+      opacity: 0.8;
+    }
+
+    button {
+      background-color: #860ef7;
+      margin-left: 10px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button a {
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    .text-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 15px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 2px solid #d1d5db;
+      resize: vertical;
+      outline: none;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .check-button {
+      margin-top: 20px;
+      background: #7c3aed;
+      border: none;
+      padding: 12px 30px;
+      color: white;
+      font-size: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .check-button:hover {
+      background: #6d28d9;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+
+    .real {
+      color: #16a34a;
+    }
+
+    .fake {
+      color: #dc2626;
+    }
+    /* ... (Your entire CSS code remains as-is) ... */
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Navbar -->
+  <nav class="navbar">
+    <div class="navdiv">
+      <div class="logo">
+        <a href="#">
+          <span style="--i:1">F</span><span style="--i:2">A</span><span style="--i:3">K</span><span style="--i:4">E</span><span style="--i:5"> </span>
+          <span style="--i:6">N</span><span style="--i:7">E</span><span style="--i:8">W</span><span style="--i:9">S</span><span style="--i:10"> </span>
+          <span style="--i:11">D</span><span style="--i:12">E</span><span style="--i:13">T</span><span style="--i:14">E</span><span style="--i:15">C</span><span style="--i:16">T</span><span style="--i:17">O</span><span style="--i:18">R</span>
+        </a>
+      </div>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#" onclick="showForm('signin')">SignIn</a></li>
+        <li><a href="#" onclick="showForm('signup')">SignUp</a></li>
+        <li><span id="welcomeUser" style="color:white; font-weight:bold; margin-right:15px;"></span></li>
+        <li><button onclick="logout()">Logout</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ✅ Auth Forms -->
+  <div class="text-container" id="authContainer" style="display: none;">
+    <h3 id="formTitle">Login</h3>
+    <form id="authForm">
+      <input type="text" name="name" id="nameField" placeholder="Name" style="display:none;"><br><br>
+      <input type="email" name="email" placeholder="Email" required><br><br>
+      <input type="password" name="password" placeholder="Password" required><br><br>
+      <button type="submit" class="check-button">Submit</button>
+    </form>
+  </div>
+
+  <!-- ✅ Text Input Section -->
+  <div class="text-container" id="predictContainer">
+    <textarea id="newsText" placeholder="Paste or type the news article here..."></textarea>
+    <button class="check-button" onclick="checkNews()">Check News</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- ✅ Scripts -->
+  <script>
+    const BACKEND_URL = "http://127.0.0.1:8000";
+
+    function showForm(mode) {
+      document.getElementById("authContainer").style.display = "block";
+      document.getElementById("predictContainer").style.display = "none";
+      const title = document.getElementById("formTitle");
+      const nameField = document.getElementById("nameField");
+
+      if (mode === 'signup') {
+        title.textContent = "Sign Up";
+        nameField.style.display = "block";
+      } else {
+        title.textContent = "Sign In";
+        nameField.style.display = "none";
+      }
+
+      document.getElementById("authForm").onsubmit = async function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        const endpoint = mode === 'signup' ? "/signup" : "/login";
+        try {
+          const response = await fetch(BACKEND_URL + endpoint, {
+            method: "POST",
+            body: formData
+          });
+
+          const data = await response.json();
+          if (response.ok) {
+            localStorage.setItem("isLoggedIn", true);
+            if (mode === 'signup') {
+              localStorage.setItem("userName", formData.get("name"));
+            } else {
+              localStorage.setItem("userName", "User");
+            }
+
+            Toastify({
+              text: mode === 'signup' ? "Signup Successful!" : "Login Successful!",
+              duration: 3000,
+              gravity: "top",
+              position: "right",
+              backgroundColor: "#22c55e",
+            }).showToast();
+
+            document.getElementById("authContainer").style.display = "none";
+            document.getElementById("predictContainer").style.display = "block";
+            document.getElementById("welcomeUser").textContent = "👋 " + localStorage.getItem("userName");
+          } else {
+            Toastify({
+              text: data.detail || "Error occurred.",
+              duration: 3000,
+              gravity: "top",
+              position: "right",
+              backgroundColor: "#ef4444",
+            }).showToast();
+          }
+        } catch (err) {
+          alert("Server Error: " + err.message);
+        }
+      };
+    }
+
+    async function checkNews() {
+      const text = document.getElementById("newsText").value.trim();
+      const result = document.getElementById("result");
+
+      if (!text) {
+        result.innerHTML = "⚠️ Please enter a news article.";
+        result.className = '';
+        return;
+      }
+
+      try {
+        const res = await fetch(`${BACKEND_URL}/predict`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: text }),
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          result.innerHTML = "🧠 GPT says:<br><br>" + data.response;
+          result.className = "";
+        } else {
+          result.innerHTML = "❌ Error: " + data.detail;
+        }
+      } catch (err) {
+        result.innerHTML = "❌ Server Error: " + err.message;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("userName");
+      localStorage.removeItem("isLoggedIn");
+      Toastify({
+        text: "Logged out successfully!",
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "#f87171",
+      }).showToast();
+      location.reload();
+    }
+
+    window.onload = () => {
+      const name = localStorage.getItem("userName");
+      const loggedIn = localStorage.getItem("isLoggedIn");
+      if (!loggedIn) {
+        showForm('signin');
+      } else {
+        document.getElementById("predictContainer").style.display = "block";
+        document.getElementById("welcomeUser").textContent = `👋 ${name}`;
+      }
+    };
+  </script>
+</body>
+</html>
