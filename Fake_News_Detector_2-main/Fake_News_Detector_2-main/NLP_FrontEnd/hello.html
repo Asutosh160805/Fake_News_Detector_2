@@ -4,29 +4,46 @@
   <meta charset="UTF-8" />
   <title>Loading</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap');
+
+    /* Base reset */
     body {
-      background: #a855f7;
+      background: linear-gradient(135deg, #0d1117, #161b22);
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       overflow: hidden;
+      font-family: 'Lato', sans-serif;
     }
 
-    span {
-      position: relative;
-      font-family: "Lato", sans-serif;
-      top: 20px;
-      color: white;
-      display: inline-block;
+    /* Loading text styles */
+    h1 {
+      color: #c9d1d9;
       font-size: 5rem;
-      text-shadow: 0 1px 0 #b7b7b7, 0 2px 0 #b7b7b7,
-                   0 3px 0 #b7b7b7, 0 4px 0 #b7b7b7, 0 5px 0 #b7b7b7,
-                   0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent, 
-                   0 9px 0 transparent, 0 10px 10px rgba(0,0,0,0.5); 
+      position: relative;
+    }
+
+    h1 span {
+      position: relative;
+      top: 20px;
+      display: inline-block;
+      color: #58a6ff; /* GitHub blue accent */
+      text-shadow:
+        0 1px 0 #384768,
+        0 2px 0 #384768,
+        0 3px 0 #384768,
+        0 4px 0 #384768,
+        0 5px 0 #384768,
+        0 6px 0 transparent,
+        0 7px 0 transparent,
+        0 8px 0 transparent,
+        0 9px 0 transparent,
+        0 10px 10px rgba(0, 0, 0, 0.5);
       animation: bounce 0.4s ease infinite alternate;
     }
 
+    /* Staggered animation delays */
     h1 span:nth-child(2) { animation-delay: 0.1s; }
     h1 span:nth-child(3) { animation-delay: 0.2s; }
     h1 span:nth-child(4) { animation-delay: 0.3s; }
@@ -38,19 +55,28 @@
     @keyframes bounce {
       100% {
         top: -20px;
-        text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc,
-                     0 5px 0 #ccc, 0 6px 0 #ccc, 0 7px 0 #ccc, 0 8px 0 #ccc,
-                     0 9px 0 #ccc, 0 60px 30px rgba(0,0,0,0.3);
+        text-shadow:
+          0 1px 0 #58a6ff,
+          0 2px 0 #58a6ff,
+          0 3px 0 #58a6ff,
+          0 4px 0 #58a6ff,
+          0 5px 0 #58a6ff,
+          0 6px 0 #58a6ff,
+          0 7px 0 #58a6ff,
+          0 8px 0 #58a6ff,
+          0 9px 0 #58a6ff,
+          0 60px 30px rgba(24, 80, 193, 0.35);
       }
     }
 
+    /* Fade overlay */
     #fade {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: black;
+      background-color: #0d1117; /* dark background for fade */
       opacity: 0;
       pointer-events: none;
       transition: opacity 2s ease;
@@ -59,7 +85,7 @@
   </style>
 </head>
 <body>
-  <h1>
+  <h1 aria-label="Loading">
     <span>L</span>
     <span>O</span>
     <span>A</span>

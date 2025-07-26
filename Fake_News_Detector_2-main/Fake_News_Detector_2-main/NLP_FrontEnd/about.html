@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>About - Fake News Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Lato', sans-serif;
+    }
+    body {
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+      line-height: 1.6;
+      padding: 40px 20px;
+    }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    header {
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 2.4rem;
+      color: #58a6ff;
+    }
+    nav a {
+      margin-left: 24px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #8b949e;
+      cursor: pointer;
+    }
+    nav a:hover {
+      color: #58a6ff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #161b22;
+      padding: 34px 36px;
+      border-radius: 16px;
+      box-shadow: 0 6px 30px rgb(88 106 255 / 0.2);
+    }
+    h2 {
+      color: #58a6ff;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #58a6ff;
+      padding-bottom: 8px;
+      font-weight: 700;
+    }
+    p {
+      margin-bottom: 24px;
+      font-size: 1.15rem;
+      color: #c9d1d9;
+    }
+    ul {
+      margin-left: 20px;
+      margin-bottom: 24px;
+      list-style-type: disc;
+    }
+
+    /* Group members table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+    th, td {
+      padding: 12px 20px;
+      border-bottom: 1px solid #30363d;
+    }
+    th {
+      text-align: left;
+      background-color: #21262d;
+      color: #58a6ff;
+      font-weight: 700;
+    }
+    td {
+      color: #8b949e;
+    }
+
+    /* Mind map container */
+    .mindmap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+    .mindmap-node {
+      background: #21262d;
+      padding: 18px 24px;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgb(88 106 255 / 0.3);
+      min-width: 220px;
+      max-width: 280px;
+      color: #c9d1d9;
+      text-align: center;
+      position: relative;
+      font-weight: 600;
+    }
+
+    /* Simple arrow styles connecting the nodes */
+    .mindmap-node::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 32px;
+      background-color: #58a6ff;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    /* Remove arrow from last row nodes */
+    .mindmap-node.last-row::after {
+      display: none;
+    }
+
+    /* Flow connection between nodes using horizontal lines */
+    .mindmap-row {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      position: relative;
+    }
+    .mindmap-row:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 32px;
+      background-color: #58a6ff;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+    }
+
+    /* Section footer */
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: #6e7681;
+      font-size: 0.9rem;
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Fake News Detector - About</h1>
+    <nav>
+      <a href="index.html" aria-label="Home Page">Home</a>
+      <a href="about.html" aria-current="page" aria-label="You are on About Page">About</a>
+    </nav>
+  </header>
+
+  <main class="container" role="main">
+    <section>
+      <h2>Group Members & Roles</h2>
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Role</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Deepam Pattnaik</td><td>Backend Developer</td></tr>
+          <tr><td>Asutosh Dash</td><td>Frontend Developer</td></tr>
+          <tr><td>Arun Kumar Biswal</td><td>Database and API Keys Integration & Documentation</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Project Objective</h2>
+      <p>This project aims to detect fake news by leveraging a Retrieval-Augmented Generation (RAG) approach combining real-time evidence from multiple sources with the reasoning power of Large Language Models (LLMs). Our system enhances reliability, transparency, and up-to-date fact-checking capability.</p>
+    </section>
+
+    <section>
+      <h2>Project Flow</h2>
+      <p>The diagram below outlines the core flow from user input to verdict delivery.</p>
+      <div class="mindmap">
+        <div class="mindmap-node" style="margin-bottom: 64px;">User Input</div>
+        <div class="mindmap-row" style="margin-bottom: 64px;">
+          <div class="mindmap-node">Claim Extraction</div>
+          <div class="mindmap-node">Multi-source Evidence Retrieval</div>
+          <div class="mindmap-node">LLM Agentic Prompting</div>
+          <div class="mindmap-node">Model Inference</div>
+        </div>
+        <div class="mindmap-row">
+          <div class="mindmap-node last-row">Verdict: FAKE / REAL / UNCERTAIN</div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Further Improvements</h2>
+      <ul>
+        <li>Improve claim extraction using advanced NLP Named Entity Recognition (NER) to better target evidence search.</li>
+        <li>Expand evidence sources by integrating more news APIs, trusted fact-checker RSS feeds, and social media signals.</li>
+        <li>Implement local vector search for efficient retrieval from large cached corpora.</li>
+        <li>Add multimodal inputs such as images or videos for richer context.</li>
+        <li>Enhance UI/UX with real-time search suggestions and progressive loading states.</li>
+        <li>Document API usage and backend architecture in a dedicated wiki for maintainability.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Fake News Detector Team. All rights reserved.
+  </footer>
+</body>
+</html>
