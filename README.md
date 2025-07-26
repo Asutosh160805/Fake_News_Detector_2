@@ -113,13 +113,6 @@ Use model: mistralai/Mixtral-8x7B-Instruct-v0.1
 🔹 NewsAPI (Optional)
 📎 https://newsapi.org/
 
-👥 Project Members
-| Name              | Role                                      |
-| ----------------- | ----------------------------------------- |
-| Deepam Pattnaik   | Backend Developer                         |
-| Asutosh Dash      | Frontend Developer                        |
-| Arun Kumar Biswal | Database, API Integration & Documentation |
-
 🔧 Further Improvements
 🔍 Advanced NLP claim extraction (e.g., Named Entity Recognition)
 
